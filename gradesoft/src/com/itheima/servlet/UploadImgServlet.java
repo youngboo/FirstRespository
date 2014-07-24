@@ -28,47 +28,8 @@ public class UploadImgServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-//		response.setContentType("text/html;charset=UTF-8");
-//		request.setCharacterEncoding("UTF-8");
-//		File file = new File("imgs");
-			//接收上传数据，并存放在服务器中
-		//1,判断文件类型，必须是图片类型的
-//		String parameter = request.getParameter("imgFile");
-//		String header = request.getHeader("Content-Type");
-//		System.out.println(header);
-		
-		ServletInputStream inputStream = request.getInputStream();
-		String path = getServletContext().getRealPath("/imgs/1.jpg");
-		System.out.println(path);
-		FileOutputStream out = new FileOutputStream(new File(path));
-		BufferedInputStream bfi = new BufferedInputStream(inputStream);
-		BufferedOutputStream bfo = new BufferedOutputStream(System.out);
-		ByteArrayOutputStream bo = new ByteArrayOutputStream();
 		
 		
-		int line =0;
-		byte[] b = new byte[1024];
-		while((line = bfi.read())!=-1){
-//			bfo.write(line);
-			bo.write(b,0,line);
-		}
-		bfi.close();
-		bfo.close();
-//		bo.close();
-		System.out.println(bo.toString());
-		
-//		int len = 0;
-//		byte[] b = new byte[1024];
-//		while((len = inputStream.read(b))!=-1){
-//			System.out.println(new String(b,0,len));
-//			out.write(b, 0, len);
-////			out.flush();
-//		}
-//		out.close();
-		
-		
-		//2，确定存放位置，防止多个文件打开速度下降
-		//3，解决中文乱码
 		
 	}
 

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project-module
+  type="WEB"
+  name="gradesoft"
+  id="myeclipse.1405864759105"
+  context-root="/gradesoft"
+  j2ee-spec="5.0"
+  archive="gradesoft.war">
+  <attributes>
+    <attribute name="webrootdir" value="WebRoot" />
+  </attributes>
+</project-module>
+

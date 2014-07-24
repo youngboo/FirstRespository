@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>grade.html</title>
+
+<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+<meta http-equiv="description" content="this is my page">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+
+<script type="text/javascript">
+	function submitForm1(thisObj) {
+		var isSub = window.confirm("确认评分：" + thisObj.value + "？你只有一次打分机会");
+		if (isSub) {
+			formObject = document.getElementById("form1");
+			formObject.submit();
+		}
+	}
+	function isImg() {
+		var fileObj = document.getElementById("imgFile");
+		var fileNamedd = fileObj.value;
+		var formObj = document.getElementById("form2");
+		fileNamedd = fileNamedd.substr(fileNamedd.lastIndexOf("\.") + 1,
+				fileNamedd.length);
+		if ("jpg" == fileNamedd.toLowerCase()|| "gif" == fileNamedd.toLowerCase()||"jpeg" == fileNamedd.toLowerCase()) {
+			formObj.submit();
+		}else{
+			alert("请上传指定文件类型，jpg/jpeg或gif");
+		}
+	}
+</script>
+</head>
+
+<body>
+	<table>
+		<tr>
+			<td>请打分：
+				<form action="servlet/MainServlet" method="post" id="form1">
+					<label for="great">优</label><input type="radio" name="grade"
+						value="优" id="great" onclick="submitForm1(this)" /> <label
+						for="good">良</label><input type="radio" name="grade" value="良"
+						id="good" onclick="submitForm1(this)" />
+				</form></td>
+		</tr>
+		<tr>
+			<td>
+				<form action="servlet/UploadServlet" method="post"
+					enctype="multipart/form-data" id="form2"> 请上传你珍藏的图片：<input
+				type="file" onchange="isImg()" id="imgFile" name="imgFile"> <label
+				for="imgFile">目前支持jpg和gif类型的图片</label></form></td>
+		</tr>
+		<tr>
+			<td><a href="/gradesofe/servlet/ShowResultServlet">跳转到结果页面</a></td>
+		</tr>
+	</table>
+
+</body>
+</html>

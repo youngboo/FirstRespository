@@ -1,16 +1,11 @@
 package com.itheima.servlet;
 
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.image.BufferedImage;
+
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
-import java.util.Random;
 
-import javax.imageio.ImageIO;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -20,21 +15,21 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import com.itheima.util.Dom4JUtil;
-import com.sun.xml.internal.bind.v2.runtime.output.Encoded;
 
+@SuppressWarnings("serial")
 public class DownLoadServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		resp.setContentType("text/html;charset=UTF-8");
-		resp.addHeader("Progam", "no-cache");
-		resp.addHeader("Expires", "-1");
-		resp.addHeader("Cache-Control", "no-cache");
+//		resp.addHeader("Progam", "no-cache");
+//		resp.addHeader("Expires", "-1");
+//		resp.addHeader("Cache-Control", "no-cache");
 		
-//		resp.setHeader("Expires", "-1");
-//		resp.setHeader("Cache-Cotrol", "no-cache");
-//		resp.setHeader("Pragma", "no-cache");
+		resp.setHeader("Expires", "-1");
+		resp.setHeader("Cache-Cotrol", "no-cache");
+		resp.setHeader("Pragma", "no-cache");
 		OutputStream out = resp.getOutputStream();
 	
 		//读取xml文件信息，输出

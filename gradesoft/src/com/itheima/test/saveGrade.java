@@ -1,14 +1,11 @@
 package com.itheima.test;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
 import java.util.Iterator;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.dom4j.tree.ElementIterator;
 import org.junit.Test;
 
 import com.itheima.util.Dom4JUtil;
@@ -29,7 +26,7 @@ public class saveGrade {
 	public void test2() {
 		Document document = Dom4JUtil.getDocument();
 		Element rootElement = document.getRootElement();
-		Iterator elementIterator = rootElement.elementIterator();
+		Iterator<?> elementIterator = rootElement.elementIterator();
 		while (elementIterator.hasNext()) {
 			Object next = elementIterator.next();
 			if (next instanceof Element) {

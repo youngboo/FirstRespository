@@ -1,9 +1,9 @@
 package com.itheima.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.List;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +13,12 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import com.itheima.util.Dom4JUtil;
-
+/**
+ * 主要用于评分结果的显示
+ * @author yannnn
+ *
+ */
+@SuppressWarnings("serial")
 public class ShowResultServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -23,13 +28,13 @@ public class ShowResultServlet extends HttpServlet {
 		response.addHeader("Expires", "-1");
 		response.addHeader("Cache-Control", "no-cache");
 
+		StringBuilder sb = new StringBuilder();
 		Document document = Dom4JUtil.getDocument();
 		List<?> elements = document.getRootElement().elements("grade");
 		if (elements.size() == 0) {
-			response.getWriter().write("没有人打分");
+			request.setAttribute("message", "没有人评分");
 		} else {
-			StringBuilder sb = new StringBuilder();
-			int count = 0;
+			sb = new StringBuilder();
 			int greatC = 0;
 			int goodC = 0;
 			for (Object object : elements) {
@@ -37,18 +42,19 @@ public class ShowResultServlet extends HttpServlet {
 				String text = gradeObj.getText();
 				if (text != null && !"".equals(text)) {
 					if (text.contains("优")) {
-						// text = text.replace("great", "优");
 						greatC++;
-						count += 20;
 					} else if (text.contains("良")) {
-						// text = text.replace("good", "良");
 						goodC++;
-						count += 10;
 					}
 				}
 				sb.append(text + "<br/> ");
+				
+				request.setAttribute("great", "优:"+greatC+"&nbsp;&nbsp;");
+				request.setAttribute("good", "良:"+goodC);
 
 			}
+			
+			
 			/**
 			 * <script> function getImg(){ var imgObj =
 			 * document.getElementById('autoImg'); imgObj.src
@@ -62,20 +68,20 @@ public class ShowResultServlet extends HttpServlet {
 			 * if('"+attribute+"'==textObj.value){ alert('验证码正确');}
 			 * else{alert('验证码错误');} } </script>
 			 */
-			String src = request.getContextPath() + "/servlet/AutoImgServlet?"
+			/*String src = contextPath + "/servlet/AutoImgServlet?"
 					+ System.currentTimeMillis();
 			PrintWriter out = response.getWriter();
 			out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
 			out.println("<HTML>");
 			out.println("  <HEAD><script>	function getImg(){ alert('asdf');	var imgObj = document.getElementById('autoImg'); imgObj.src ='"
-					+ request.getContextPath()
+					+ contextPath
 					+ "/servlet/AutoImgServlet?"
 					+ System.currentTimeMillis()
 					+ "' }function isValue(){ var textObj = document.getElementById('autoImgInput');if(==textObj.value){	alert('验证码正确');}}</script><TITLE>show</TITLE></HEAD>");
 			out.println("  <BODY>");
 			out.write(sb.toString() + "优的个数:" + greatC + "&nbsp;&nbsp;良的个数:"
 					+ goodC);
-			out.write("<br/><a href='" + request.getContextPath()
+			out.write("<br/><a href='" + contextPath
 					+ "/servlet/DownLoadServlet'>下载本次评分数据</a>");
 //			out.write("<br/><input type='text' id='autoImgInput' onchange='isValue()'><img id='autoImg' src="
 //					+ src
@@ -84,7 +90,11 @@ public class ShowResultServlet extends HttpServlet {
 			out.println("</HTML>");
 			out.flush();
 			out.close();
-		}
+*/		}
+		//转发到jsp页面
+		request.setAttribute("result", sb.toString());
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/pages/result.jsp");
+		requestDispatcher.forward(request, response);
 
 	}
 

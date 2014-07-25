@@ -1,7 +1,6 @@
 package com.itheima.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -21,6 +20,7 @@ import com.itheima.util.Dom4JUtil;
  * @author Youngbo
  * 
  */
+@SuppressWarnings("serial")
 public class MainServlet extends HttpServlet {
 	Document document = Dom4JUtil.getDocument();
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -40,6 +40,7 @@ public class MainServlet extends HttpServlet {
 
 		String address = request.getRemoteAddr();
 		if (!names.contains(address)) {
+			//用于get方式提交的中文乱码处理
 //			String grade = new String(request.getParameter("grade").getBytes("iso-8859-1"),"UTF-8");
 			String grade = request.getParameter("grade");
 			System.out.println(grade);
@@ -60,8 +61,6 @@ public class MainServlet extends HttpServlet {
 					.getRequestDispatcher("/confirm.jsp");
 			requestDispatcher.forward(request, response);
 		} else {
-//			response.sendRedirect("/gradesofe/servlet/ShowResultServlet");
-//			response.addHeader("refresh", "3;url=/gradesofe/servlet/ShowResultServlet");
 			request.setAttribute("message", "你只有一次打分机会");
 			RequestDispatcher requestDispatcher = request
 					.getRequestDispatcher("/confirm.jsp");

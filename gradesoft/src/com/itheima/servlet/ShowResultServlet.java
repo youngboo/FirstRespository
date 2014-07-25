@@ -62,13 +62,12 @@ public class ShowResultServlet extends HttpServlet {
 			 * if('"+attribute+"'==textObj.value){ alert('验证码正确');}
 			 * else{alert('验证码错误');} } </script>
 			 */
-
 			String src = request.getContextPath() + "/servlet/AutoImgServlet?"
 					+ System.currentTimeMillis();
 			PrintWriter out = response.getWriter();
 			out.println("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">");
 			out.println("<HTML>");
-			out.println("  <HEAD><script>	function getImg(){ 	var imgObj = document.getElementById('autoImg'); imgObj.src ='"
+			out.println("  <HEAD><script>	function getImg(){ alert('asdf');	var imgObj = document.getElementById('autoImg'); imgObj.src ='"
 					+ request.getContextPath()
 					+ "/servlet/AutoImgServlet?"
 					+ System.currentTimeMillis()
@@ -78,9 +77,9 @@ public class ShowResultServlet extends HttpServlet {
 					+ goodC);
 			out.write("<br/><a href='" + request.getContextPath()
 					+ "/servlet/DownLoadServlet'>下载本次评分数据</a>");
-			out.write("<br/><input type='text' id='autoImgInput' onchange='isValue()'><img id='autoImg' src="
-					+ src
-					+ " onclick='getImg()'/><a href='javascript:getImg()'>看不清？</a>");
+//			out.write("<br/><input type='text' id='autoImgInput' onchange='isValue()'><img id='autoImg' src="
+//					+ src
+//					+ " onclick='getImg()'/><a href='javascript:getImg()'>看不清？</a>");
 			out.println("  </BODY>");
 			out.println("</HTML>");
 			out.flush();

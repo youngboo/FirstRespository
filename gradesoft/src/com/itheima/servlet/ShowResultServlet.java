@@ -1,7 +1,9 @@
 package com.itheima.servlet;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,7 +30,9 @@ public class ShowResultServlet extends HttpServlet {
 		response.addHeader("Expires", "-1");
 		response.addHeader("Cache-Control", "no-cache");
 
-		StringBuilder sb = new StringBuilder();
+		StringBuilder sb = null;
+//		List<String> results = new ArrayList<String>();
+		Map<String,String> results = new LinkedHashMap<String, String>();
 		Document document = Dom4JUtil.getDocument();
 		List<?> elements = document.getRootElement().elements("grade");
 		if (elements.size() == 0) {
@@ -46,11 +50,13 @@ public class ShowResultServlet extends HttpServlet {
 					} else if (text.contains("良")) {
 						goodC++;
 					}
+					String[] split = text.split(":");
+					results.put(split[0], split[1]);
+					sb.append(text + "<br/> ");
 				}
-				sb.append(text + "<br/> ");
 				
-				request.setAttribute("great", "优:"+greatC+"&nbsp;&nbsp;");
-				request.setAttribute("good", "良:"+goodC);
+				request.setAttribute("great", greatC);
+				request.setAttribute("good", goodC);
 
 			}
 			
@@ -87,12 +93,13 @@ public class ShowResultServlet extends HttpServlet {
 //					+ src
 //					+ " onclick='getImg()'/><a href='javascript:getImg()'>看不清？</a>");
 			out.println("  </BODY>");
-			out.println("</HTML>");
+			`.println("</HTML>");
 			out.flush();
 			out.close();
 */		}
 		//转发到jsp页面
-		request.setAttribute("result", sb.toString());
+//		request.setAttribute("result", sb.toString());
+		request.setAttribute("results", results);
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher("/WEB-INF/pages/result.jsp");
 		requestDispatcher.forward(request, response);
 

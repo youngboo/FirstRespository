@@ -43,14 +43,13 @@ public class MainServlet extends HttpServlet {
 			//用于get方式提交的中文乱码处理
 //			String grade = new String(request.getParameter("grade").getBytes("iso-8859-1"),"UTF-8");
 			String grade = request.getParameter("grade");
-			System.out.println(grade);
 			if (grade != null && !"".equals(grade)&&("优".equals(grade)||"良".equals(grade))) {
 				Element root = document.getRootElement();
 				Element gradeEle = DocumentHelper.createElement("grade");
 				
-				String addressSub = address.substring(0, address.length()-1);
-				String addressRel = addressSub+"*";
-				gradeEle.setText(addressRel+":"+grade);
+//				String addressSub = address.substring(0, address.length()-1);
+//				String addressRel = address.substring(0, address.length()-1)+"*";
+				gradeEle.setText(address+" : "+grade);
 				root.add(gradeEle);
 				Dom4JUtil.writeDocument2Xml(document);
 			}

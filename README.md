@@ -1,7 +1,7 @@
 ﻿FirstRespository
 ================
 
-https://github.com/youngboo/FirstGitRepository.git
+https://github.com/youngboo/FirstRepository.git
 this is a public javaweb project
 
 需求：

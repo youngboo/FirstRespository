@@ -3,6 +3,7 @@ package com.itheima.servlet;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -18,7 +19,12 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 
 import com.itheima.util.Dom4JUtil;
-
+import com.itheima.util.Dom4JUtilResult;
+/**
+ * 用于下载评分情况
+ * @author gzh
+ *
+ */
 @SuppressWarnings("serial")
 public class DownLoadServlet extends HttpServlet
 {
@@ -39,6 +45,7 @@ public class DownLoadServlet extends HttpServlet
 		//验证码一致时可以下载,否则要求重新输入验证码
 		if(sessionAuthcode.equals(typedAuthcode))
 		{
+			
 			download(req,resp);
 		}
 		else
@@ -56,9 +63,22 @@ public class DownLoadServlet extends HttpServlet
 
 	private void download(HttpServletRequest req, HttpServletResponse resp) throws IOException, UnsupportedEncodingException, FileNotFoundException, ServletException
 	{
+		Document document = null;
+		String path = null;
+		String filename = null;
+		String parameter = req.getParameter("type");
+		System.out.println(parameter);
+		if ("this".equals(parameter)) {
+			document = Dom4JUtil.getDocument();
+			path =  DownLoadServlet.class.getClassLoader().getResource("grades.xml").getPath();
+			filename = URLEncoder.encode("本次打分情况.xml", "UTF-8");
+		}else if("all".equals(parameter)){
+			document = Dom4JUtilResult.getDocument();
+			path =  DownLoadServlet.class.getClassLoader().getResource("results.xml").getPath();
+			filename = URLEncoder.encode("历次打分情况.xml", "UTF-8");
+			
+		}
 		// 读取xml文件信息，输出
-		String path = getServletContext().getRealPath("/WEB-INF/grades.xml");
-		Document document = Dom4JUtil.getDocument();
 		Element rootElement = document.getRootElement();
 		if (rootElement.elements().size() == 0)
 		{
@@ -68,15 +88,15 @@ public class DownLoadServlet extends HttpServlet
 			requestDispatcher.forward(req, resp);
 			//out.write("文件没有内容，请稍候下载<a href='/gradesofe/servlet'>返回打分页面</a>"
 					//.getBytes("UTF-8"));
+			return;
 		}
 		else
 		{
 			ServletOutputStream out = resp.getOutputStream();
-			String filename = URLEncoder.encode("打分情况.xml", "UTF-8");
 			resp.addHeader("Content-Disposition", "attachment;filename="
 					+ filename);
 			resp.addHeader("Content-Type", "application/octet-stream");
-
+			
 			FileInputStream in = new FileInputStream(path);
 			int len = 0;
 			byte[] b = new byte[1024];

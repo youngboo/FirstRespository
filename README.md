@@ -4,7 +4,8 @@
 https://github.com/youngboo/FirstRespository.git
 this is a public javaweb project
 
-需求：
+需求：请参考新的打分软件.mm
+
 0，重构代码，实现分层，用jsp实现所有页面显示功能。
 1，登录注册一体化，首次登录即是注册，无密码。
 2，同一IP短时间内多次请求要把该ip列为黑名单。

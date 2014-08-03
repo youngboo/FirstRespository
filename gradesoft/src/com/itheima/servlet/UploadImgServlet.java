@@ -3,13 +3,16 @@ package com.itheima.servlet;
 import java.io.IOException;
 
 import javax.servlet.ServletException;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 /**
  * 用于上传，目前没用
+ * 
  * @author yannnn
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class UploadImgServlet extends HttpServlet {
@@ -30,6 +33,12 @@ public class UploadImgServlet extends HttpServlet {
 	 */
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		ServletInputStream inputStream = request.getInputStream();
+		int len = 0;
+		byte[] b = new byte[1024];
+		while ((len = inputStream.read(b)) != -1) {
+			System.out.print(new String(b, 0, len));
+		}
 
 	}
 

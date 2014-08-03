@@ -27,12 +27,50 @@
 			alert("请上传指定文件类型，jpg/jpeg或gif");
 		}
 	}
+	function subForm(){
+		var formObj = document.getElementById("form2");
+			formObj.submit();
+	}
+		function loadXMLDoc() {
+		var xmlhttp;
+		var txt, x, i;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				/* alert(xmlhttp.responseText); */
+				/* alert(xmlhttp.responseXML); */
+				xmlDoc = xmlhttp.responseXML;
+				/* xmlDoc=xmlhttp.responseText; */
+				txt = "";
+				x = xmlDoc.getElementsByTagName("grade");
+				for (i = 0; i < x.length; i++) {
+				var nodeee = x[i].childNodes[0].nodeValue;
+				var nodespl = nodeee.split(":");
+				alert(nodespl[0]+";;;"+nodespl[1]);
+					txt = txt + x[i].childNodes[0].nodeValue + "<br />";
+				}
+				document.getElementById("myDiv").innerHTML = txt;
+			}
+		}
+		xmlhttp.open("GET",
+				"http://localhost:8080/gradesoft/servlet/ReturnAjaxInfo?ajaxType=showResult&time="
+						+ new Date().getTime(), true);
+		xmlhttp.send();
+	}
+	setInterval("loadXMLDoc()","2000");
 </script>
 </head>
 
 <body>
-	<table>
-		<tr>
+<div id="myDiv"></div>
+
+
+	<table align="center" style="border:1px green solid;width:400px">
+		<tr align="center">
 			<td>请打分：
 				<form action="servlet/MainServlet" method="post" id="form1">
 					<label for="great">优</label><input type="radio" name="grade"
@@ -43,12 +81,12 @@
 		</tr>
 		<tr>
 			<td>
-			<!-- 	<form action="servlet/UploadServlet" method="post"
+				<form action="servlet/UploadServlet" method="post"
 					enctype="multipart/form-data" id="form2"> 请上传你珍藏的图片：<input
-				type="file" onchange="isImg()" id="imgFile" name="imgFile"> <label
-				for="imgFile">目前支持jpg和gif类型的图片</label></form> --></td>
+				type="file" onchange="subForm()" id="imgFile" name="imgFile"><!--  <label
+				for="imgFile">目前支持jpg和gif类型的图片</label> --></form></td>
 		</tr>
-		<tr>
+		<tr align="center">
 			<td><a href="/gradesoft/servlet/ShowResultServlet">跳转到结果页面</a></td>
 		</tr>
 	</table>

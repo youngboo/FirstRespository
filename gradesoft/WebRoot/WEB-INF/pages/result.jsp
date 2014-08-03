@@ -12,7 +12,7 @@
 <script type="text/javascript">
 	function getImg() {
 		var imgObj = document.getElementById("autoImg");
-		imgObj.src = "/gradesoft/servlet/AutoImgServlet?" + new Date();
+		imgObj.src = "/gradesoft/servlet/AutoImgServlet?" + new Date().getTime();
 		var imgText = document.getElementById("imgTex");
 		imgText.value = "";
 		imgText.onfouse();
@@ -23,7 +23,52 @@
 		var subStr = str.substring(0, str.length - 1) + "*";
 		alert();
 	}
-/* 	alert(str.substring(0, str.length - 1) + "*"); */
+	function loadXMLDoc() {
+		var xmlhttp;
+		var txt, x, i;
+		if (window.XMLHttpRequest) {// code for IE7+, Firefox, Chrome, Opera, Safari
+			xmlhttp = new XMLHttpRequest();
+		} else {// code for IE6, IE5
+			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+		}
+		xmlhttp.onreadystatechange = function() {
+			if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+				xmlDoc = xmlhttp.responseXML;
+				if (xmlDoc==null) {
+					var txtDoc = xmlhttp.responseText;
+					document.getElementById("myDiv").innerHTML = txtDoc;
+				}else{
+				txt = "";
+				x = xmlDoc.getElementsByTagName("grade");
+				for (i = 0; i < x.length; i++) {
+				var nodeee = x[i].childNodes[0].nodeValue;
+				var nodespl = nodeee.split(":");
+					txt = txt + x[i].childNodes[0].nodeValue + "<br />";
+				document.getElementById("myDiv").innerHTML = txt;
+				var tdObj1 = document.createElement("td");
+				tdObj1.innerHTML = "123";
+				var tdObj2 = document.createElement("td");
+				tdObj1.innerHTML = x[i].childNodes[0].nodeValue;
+				var tdObj3 = document.createElement("td");
+				tdObj1.innerHTML = x[i].childNodes[0].nodeValue;
+				var trObj = document.createElement("tr");
+				trObj.appendChild(tdObj1);
+				trObj.appendChild(tdObj2);
+				trObj.appendChild(tdObj3);
+				document.getElementById("aTable").insertRow(trObj);
+				}
+				/* var rowww = "<tr><td>"+i+"</td><td>"+i+"</td><td>"+i+"</td></tr>";
+				alert(rowww); */
+				
+				}
+			}
+		}
+		xmlhttp.open("GET",
+				"${pageContext.request.contextPath}/servlet/ReturnAjaxInfo?isFirst=${sessionScope.isFirst}&ajaxType=showResult&time="
+						+ new Date().getTime(), true);
+		xmlhttp.send();
+	}
+	setInterval("loadXMLDoc()","2000");
 </script>
 <script type="text/css">
 .odd{
@@ -36,11 +81,24 @@
 </script>
 </head>
 <body>
+<div id="myDiv"></div>
 	${requestScope.message}
+
 
 	<br>
 	<myc:if test="${empty requestScope.message }">
-		<table align="center" style="border:1px red solid;width:400px">
+		<table align="center" style="border:1px red solid;width:400px" id="aTable">
+			<tr align="center">
+				<td>优：*</td>
+				<td>良：*</td>
+				<td>共有${requestScope.count }人投票</td>
+			</tr>
+			<tr>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+				<td>&nbsp;&nbsp;</td>
+
+			</tr>
 			<tr align="center">
 				<th>投票顺序</th>
 				<th>IP值</th>
@@ -50,41 +108,15 @@
 				<tr align="center" class="${vs.count%2==0?'odd':'even'}">
 					<td>${vs.count }</td>
 					<td>${r.key}</td>
-					<td>${r.value}</td>
+					<td>*</td>
 				</tr>
 			</c:forEach>
-			<tr>
-				<td>&nbsp;&nbsp;</td>
-				<td>&nbsp;&nbsp;</td>
-				<td>&nbsp;&nbsp;</td>
 
-			</tr>
-			<tr align="center">
-				<td>优：${requestScope.great }</td>
-				<td>良：${requestScope.good }</td>
-				<td>共有${requestScope.great+requestScope.good }人投票</td>
-			</tr>
 		</table>
 
 	</myc:if>
 	<%-- <myc:if test="${empty requestScope.message}">
-		<form action="/gradesoft/servlet/DownLoadServlet" method="get"
-			id="imgForm">
-			<input type="text" name="authcode" style="width:100px" id="imgTex">
-			<img alt="" src="" id="autoImg" onclick="getImg()">${requestScope.note
-			}<br>
-			<br> <input type="button" value="输入验证码下载此次评分情况"
-				onclick="subImgText()"> <input type="submit"
-				value="输入验证码下载此次评分情况">
-		</form>
-		<script>
-			function subImgText() {
-				var formObj = document.getElementById("imgForm");
-				formObj.submit();
-			}
-			getImg();
-		</script>
+	
 	</myc:if> --%>
-
 </body>
 </html>

@@ -23,7 +23,15 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   </head>
   
   <body>
-    ${message}<br/>
-    <a href="<%=request.getContextPath()%>/servlet/ShowResultServlet">点击查看结果页面</a>
+  <table  align="center" style="border:1px red solid;width:400px">
+  	<tr  align="center">
+  		<td> ${message}</td>
+  	</tr>
+  	<tr  align="center">
+  		<td><a href="<%=request.getContextPath()%>/servlet/ShowResultServlet">点击查看结果页面</a></td>
+  	</tr>
+  </table>
+   <br/>
+    
   </body>
 </html>

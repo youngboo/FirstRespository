@@ -16,7 +16,7 @@ import org.dom4j.Element;
 import com.itheima.util.Dom4JUtil;
 
 /**
- * 
+ * 评分提交服务器
  * @author Youngbo
  * 
  */
@@ -28,9 +28,9 @@ public class MainServlet extends HttpServlet {
 		response.setContentType("text/html;charset=UTF-8");
 		request.setCharacterEncoding("UTF-8");
 		
-		String remoteAddr = request.getRemoteAddr();
+//		String remoteAddr = request.getRemoteAddr();
+//		System.out.println(remoteAddr);
 		ServletContext context = this.getServletContext();
-		System.out.println(remoteAddr + "来访问了");
 
 		String names = "";
 		if (context.getAttribute("address") != null
@@ -77,6 +77,12 @@ public class MainServlet extends HttpServlet {
 	public void destroy() {
 		Dom4JUtil.deleteXml(document);
 		super.destroy();
+	}
+
+	@Override
+	public void init() throws ServletException {
+		Dom4JUtil.deleteXml(document);
+		super.init();
 	}
 	
 
